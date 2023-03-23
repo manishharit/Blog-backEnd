@@ -1,6 +1,7 @@
 package com.maniBlog.BlogbackEnd.Controller;
 
 import com.maniBlog.BlogbackEnd.PayLoad.PostDto;
+import com.maniBlog.BlogbackEnd.PayLoad.PostResponse;
 import com.maniBlog.BlogbackEnd.Service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<PostDto> getAllPosts(
+    public PostResponse getAllPosts(
             @RequestParam(value = "pageNo",defaultValue = "0",required = false) int pageNo,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false) int pageSize
     ){

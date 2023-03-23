@@ -3,6 +3,7 @@ package com.maniBlog.BlogbackEnd.Service.Impl;
 import com.maniBlog.BlogbackEnd.Entity.Post;
 import com.maniBlog.BlogbackEnd.Execption.ResourceNotFoundExecption;
 import com.maniBlog.BlogbackEnd.PayLoad.PostDto;
+import com.maniBlog.BlogbackEnd.PayLoad.PostResponse;
 import com.maniBlog.BlogbackEnd.Repository.PostRepository;
 import com.maniBlog.BlogbackEnd.Service.PostService;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts(int pageNo,int pageSize) {
+    public PostResponse getAllPosts(int pageNo,int pageSize) {
         Pageable pageable = PageRequest.of(pageNo,pageSize);
         Page<Post> posts = postRepository.findAll(pageable);
         List<Post> postList = posts.getContent();
-        return postList.stream().map(this::mapToDto).collect(Collectors.toList());
+
+        List<PostDto> postContent = postList.stream().map(this::mapToDto).collect(Collectors.toList());
+        return PostResponse.builder()
+                .content(postContent)
+                .pageNo(posts.getNumber())
+                .pageSize(posts.getSize())
+                .totalElements(posts.getTotalElements())
+                .totalPages(posts.getTotalPages())
+                .last(posts.isLast()).build();
     }
 
     @Override
