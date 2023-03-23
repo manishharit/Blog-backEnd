@@ -6,6 +6,9 @@ import com.maniBlog.BlogbackEnd.PayLoad.PostDto;
 import com.maniBlog.BlogbackEnd.Repository.PostRepository;
 import com.maniBlog.BlogbackEnd.Service.PostService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,9 +28,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        return posts.stream().map(this::mapToDto).collect(Collectors.toList());
+    public List<PostDto> getAllPosts(int pageNo,int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo,pageSize);
+        Page<Post> posts = postRepository.findAll(pageable);
+        List<Post> postList = posts.getContent();
+        return postList.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
     @Override
