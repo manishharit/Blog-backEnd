@@ -73,7 +73,6 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(id);
     }
 
-    // Entity to Dto convertor
     private PostDto mapToDto(Post post){
         return PostDto.builder()
                 .id(post.getId())
@@ -82,7 +81,6 @@ public class PostServiceImpl implements PostService {
                 .content(post.getContent()).build();
     }
 
-    // Dto to Entity Converter
     private Post mapToEntity(PostDto postDto){
         return Post.builder()
                 .title(postDto.getTitle())

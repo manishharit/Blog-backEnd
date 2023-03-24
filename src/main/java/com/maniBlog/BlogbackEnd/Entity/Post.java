@@ -11,14 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Table(
-//        name = "posts",
-//        uniqueConstraints = {
-//                @UniqueConstraint(
-//                        columnNames = {"title"}
-//                )
-//        }
-//)
+//@Table(name = "posts",uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})})
 public class Post {
 
     @Id
