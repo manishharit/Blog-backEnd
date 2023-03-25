@@ -2,6 +2,7 @@ package com.maniBlog.BlogbackEnd.Controller;
 
 import com.maniBlog.BlogbackEnd.PayLoad.CommentDto;
 import com.maniBlog.BlogbackEnd.Service.CommentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentDto> createComment(
             @PathVariable(value = "postId") Long postId,
-            @RequestBody CommentDto commentDto){
+            @Valid @RequestBody CommentDto commentDto){
         return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.CREATED);
     }
 
@@ -38,7 +39,7 @@ public class CommentController {
     @PutMapping("/{commentId}")
     public ResponseEntity<CommentDto> updateCommentById(
             @PathVariable(name = "postId") Long postId,
-            @RequestBody CommentDto commentDto,
+            @Valid @RequestBody CommentDto commentDto,
             @PathVariable(name = "commentId") Long commentId){
         return ResponseEntity.ok(commentService.updateCommentById(postId,commentDto,commentId));
     }
