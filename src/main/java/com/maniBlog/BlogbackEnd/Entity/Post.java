@@ -25,7 +25,7 @@ public class Post {
     private String title;
     @Column(name = "description")
     private String description;
-    @Column(name = "content")
+    @Column(name = "content",columnDefinition = "longtext")
     private String content;
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)

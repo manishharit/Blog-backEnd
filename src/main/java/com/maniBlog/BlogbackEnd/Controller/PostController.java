@@ -4,6 +4,7 @@ import com.maniBlog.BlogbackEnd.PayLoad.PostDto;
 import com.maniBlog.BlogbackEnd.PayLoad.PostResponse;
 import com.maniBlog.BlogbackEnd.Service.PostService;
 import com.maniBlog.BlogbackEnd.Utils.BlogConstants;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto){
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
@@ -39,7 +40,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePostById(@RequestBody PostDto postDto,@PathVariable(name = "id") Long id){
+    public ResponseEntity<PostDto> updatePostById(@Valid @RequestBody PostDto postDto,@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(postService.updatePostById(postDto,id));
     }
 
