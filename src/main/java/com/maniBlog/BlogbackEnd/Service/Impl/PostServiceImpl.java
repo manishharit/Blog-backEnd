@@ -7,6 +7,7 @@ import com.maniBlog.BlogbackEnd.PayLoad.PostResponse;
 import com.maniBlog.BlogbackEnd.Repository.PostRepository;
 import com.maniBlog.BlogbackEnd.Service.PostService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private ModelMapper mapper;
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -74,17 +76,22 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostDto mapToDto(Post post){
-        return PostDto.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .description(post.getDescription())
-                .content(post.getContent()).build();
+       return mapper.map(post,PostDto.class);
+//         PostDto postDto = new PostDto();
+//                postDto.setId(post.getId());
+//                postDto.setTitle(post.getTitle());
+//                postDto.setDescription(post.getDescription());
+//                postDto.setContent(post.getContent());
+//        return postDto;
     }
 
     private Post mapToEntity(PostDto postDto){
-        return Post.builder()
-                .title(postDto.getTitle())
-                .description(postDto.getDescription())
-                .content(postDto.getContent()).build();
+       return mapper.map(postDto,Post.class);
+//        Post post = new Post();
+//                postDto.setTitle(postDto.getTitle());
+//                postDto.setDescription(postDto.getDescription());
+//                postDto.setContent(postDto.getContent());
+//                postDto.setComments(postDto.getComments());
+//                return post;
     }
 }
