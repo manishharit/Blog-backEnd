@@ -4,6 +4,7 @@ import com.maniBlog.BlogbackEnd.PayLoad.PostDto;
 import com.maniBlog.BlogbackEnd.PayLoad.PostResponse;
 import com.maniBlog.BlogbackEnd.Service.PostService;
 import com.maniBlog.BlogbackEnd.Utils.BlogConstants;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
@@ -40,11 +44,17 @@ public class PostController {
     public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(postService.getPostById(id));
     }
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePostById(@Valid @RequestBody PostDto postDto,@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(postService.updatePostById(postDto,id));
     }
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePostById(@PathVariable(name = "id") Long id){

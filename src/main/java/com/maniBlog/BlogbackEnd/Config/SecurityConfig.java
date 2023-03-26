@@ -2,6 +2,8 @@ package com.maniBlog.BlogbackEnd.Config;
 
 import com.maniBlog.BlogbackEnd.Security.JwtAuthenticationFilter;
 import com.maniBlog.BlogbackEnd.Security.JwtAuthenticatopnEntryPoint;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +26,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity
 @AllArgsConstructor
+@SecurityScheme(
+        name = "Bear Authentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class SecurityConfig {
 
     private JwtAuthenticatopnEntryPoint authenticatopnEntryPoint;
