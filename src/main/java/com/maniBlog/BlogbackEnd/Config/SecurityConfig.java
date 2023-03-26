@@ -53,6 +53,8 @@ public class SecurityConfig {
 //                                authorize.anyRequest().authenticated()
                                 authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll()
                                         .requestMatchers("/api/auth/**").permitAll()
+                                        .requestMatchers("/swagger-ui/**").permitAll()
+                                        .requestMatchers("/v3/**").permitAll()
                                         .anyRequest().authenticated()
                         ).exceptionHandling(
                                 (execption)-> execption.authenticationEntryPoint(authenticatopnEntryPoint)
@@ -80,3 +82,6 @@ public class SecurityConfig {
 //
 //    }
 }
+
+// http://localhost:8999/swagger-ui/index.html#/post-controller/getAllPosts
+// http://localhost:8999/v3/api-docs
