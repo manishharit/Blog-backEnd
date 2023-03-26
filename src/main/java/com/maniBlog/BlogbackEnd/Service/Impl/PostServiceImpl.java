@@ -1,9 +1,12 @@
 package com.maniBlog.BlogbackEnd.Service.Impl;
 
+import com.maniBlog.BlogbackEnd.Entity.Category;
 import com.maniBlog.BlogbackEnd.Entity.Post;
+import com.maniBlog.BlogbackEnd.Execption.BlogApiExecption;
 import com.maniBlog.BlogbackEnd.Execption.ResourceNotFoundExecption;
 import com.maniBlog.BlogbackEnd.PayLoad.PostDto;
 import com.maniBlog.BlogbackEnd.PayLoad.PostResponse;
+import com.maniBlog.BlogbackEnd.Repository.CategoryRepository;
 import com.maniBlog.BlogbackEnd.Repository.PostRepository;
 import com.maniBlog.BlogbackEnd.Service.PostService;
 import lombok.AllArgsConstructor;
@@ -12,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +28,16 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private ModelMapper mapper;
 
+    private CategoryRepository categoryRepository;
+
     @Override
     public PostDto createPost(PostDto postDto) {
+
+        Category category = categoryRepository.findById(postDto.getCategoryId()).orElseThrow(
+                ()-> new ResourceNotFoundExecption("Category","id",postDto.getCategoryId()));
+
         Post post = mapToEntity(postDto);
+        post.setCategory(category);
         Post newPost = postRepository.save(post);
         return mapToDto(newPost);
     }
@@ -62,9 +73,14 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundExecption("Post","id",id));
 
+        Category category = categoryRepository.findById(postDto.getCategoryId()).orElseThrow(
+                ()->new ResourceNotFoundExecption("Category","id",id)
+        );
+
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
+        post.setCategory(category);
         return  mapToDto(postRepository.save(post));
     }
 
