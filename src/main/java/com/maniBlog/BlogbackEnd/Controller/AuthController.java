@@ -1,5 +1,6 @@
 package com.maniBlog.BlogbackEnd.Controller;
 
+import com.maniBlog.BlogbackEnd.PayLoad.JwtAuthResponse;
 import com.maniBlog.BlogbackEnd.PayLoad.LoginDto;
 import com.maniBlog.BlogbackEnd.PayLoad.RegisterDto;
 import com.maniBlog.BlogbackEnd.Service.AuthService;
@@ -19,9 +20,13 @@ public class AuthController {
 
     private AuthService authService;
     @PostMapping(value = {"/login","/signin"})
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-       String response = authService.login(loginDto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
+       String token = authService.login(loginDto);
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+
+       return ResponseEntity.ok(jwtAuthResponse);
     }
 
     @PostMapping(value = {"/register","/signup"})

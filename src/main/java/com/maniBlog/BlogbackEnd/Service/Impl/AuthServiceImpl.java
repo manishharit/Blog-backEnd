@@ -7,6 +7,7 @@ import com.maniBlog.BlogbackEnd.PayLoad.LoginDto;
 import com.maniBlog.BlogbackEnd.PayLoad.RegisterDto;
 import com.maniBlog.BlogbackEnd.Repository.RoleRepository;
 import com.maniBlog.BlogbackEnd.Repository.UserRepository;
+import com.maniBlog.BlogbackEnd.Security.JwtTokenProvider;
 import com.maniBlog.BlogbackEnd.Service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,8 @@ public class AuthServiceImpl implements AuthService {
    private RoleRepository roleRepository;
    private PasswordEncoder passwordEncoder;
 
+   private JwtTokenProvider jwtTokenProvider;
+
     @Override
     public String login(LoginDto loginDto) {
        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -36,7 +39,9 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return "User Logged-In successfully!.";
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        return token;
     }
 
     @Override
