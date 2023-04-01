@@ -1,5 +1,6 @@
 package com.maniBlog.BlogbackEnd.Controller;
 
+import com.maniBlog.BlogbackEnd.Entity.User;
 import com.maniBlog.BlogbackEnd.PayLoad.JwtAuthResponse;
 import com.maniBlog.BlogbackEnd.PayLoad.LoginDto;
 import com.maniBlog.BlogbackEnd.PayLoad.RegisterDto;
@@ -7,10 +8,10 @@ import com.maniBlog.BlogbackEnd.Service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -33,4 +34,9 @@ public class AuthController {
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @PreAuthorize("hasRole('ROLE_CODEOWNER')")
+    @GetMapping("/members")
+    public ResponseEntity<List<User>> getAllUsers(){
+        return ResponseEntity.ok(authService.getAllUsers());   }
 }
