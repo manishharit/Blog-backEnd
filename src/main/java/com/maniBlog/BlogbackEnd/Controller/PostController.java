@@ -27,6 +27,7 @@ public class PostController {
 
     private final PostService postService;
 
+    //------------> Create New Post <----------------
     @Operation(
             summary = "CREATE POST REST API ----",
             description = "CREATE POST REST API responsible for creating new posst and saving it to database"
@@ -44,9 +45,7 @@ public class PostController {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
-
-
-
+//-------------> Get All Posts <----------------------------------
     @Operation(
             summary = "GET ALL POST  REST API ----",
             description = "GET ALL POST REST API responsible for fetching all posts from  database "
@@ -65,7 +64,7 @@ public class PostController {
         return postService.getAllPosts(pageNo,pageSize,sortBy,sortDir);
     }
 
-
+    //-------------> Get All Posts By Id <----------------------------------
     @Operation(
             summary = "GET POST BY ID REST API ----",
             description = "GET POST BY ID REST API responsible for fetching single post from  database by Id"
@@ -79,7 +78,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
-
+    //-------------> Update Posts By Id <----------------------------------
     @Operation(
             summary = "UPDATE POST BY ID REST API ----",
             description = "UPDATE POST BY ID REST API responsible for updating posts onto  database by Id"
@@ -97,9 +96,7 @@ public class PostController {
         return ResponseEntity.ok(postService.updatePostById(postDto,id));
     }
 
-
-
-
+    //-------------> Delete Posts By Id <----------------------------------
     @Operation(
             summary = "DELETE POST BY ID REST API ----",
             description = "DELETE POST BY ID REST API responsible for deleting single post from  database by Id"
@@ -118,8 +115,7 @@ public class PostController {
         return ResponseEntity.ok("Post has been deleted successfully");
     }
 
-
-
+    //-------------> Get Posts By Category <----------------------------------
     @Operation(
             summary = "GET POST BY CATEGORY ID REST API ----",
             description = "GET POST BY CATEGORY ID REST API responsible for fetching list of post from  database by category Id"

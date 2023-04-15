@@ -19,6 +19,8 @@ import java.util.List;
 public class AuthController {
 
     private AuthService authService;
+
+    //-------------> Login User <----------------------------------
     @PostMapping(value = {"/login","/signin"})
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
        String token = authService.login(loginDto);
@@ -29,12 +31,14 @@ public class AuthController {
        return ResponseEntity.ok(jwtAuthResponse);
     }
 
+    //-------------> Register User <----------------------------------
     @PostMapping(value = {"/register","/signup"})
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    //-------------> Get All Users <----------------------------------
     @PreAuthorize("hasRole('ROLE_CODEOWNER')")
     @GetMapping("/members")
     public ResponseEntity<List<User>> getAllUsers(){

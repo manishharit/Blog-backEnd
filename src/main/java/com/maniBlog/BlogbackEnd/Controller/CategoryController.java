@@ -16,6 +16,7 @@ import java.util.List;
 public class CategoryController {
     private CategoryService categoryService;
 
+    //-------------> Add Category  <----------------------------------
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto){
@@ -23,24 +24,28 @@ public class CategoryController {
         return new ResponseEntity<>(saveCategory,HttpStatus.CREATED);
     }
 
+    //-------------> Get Category By Id<----------------------------------
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategory(@PathVariable(name = "id") Long id){
        CategoryDto category =  categoryService.getCategory(id);
        return ResponseEntity.ok(category);
     }
 
+    //-------------> Get All Categories <----------------------------------
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getAllcategory(){
        List<CategoryDto> categoryList = categoryService.getAllcategory();
        return ResponseEntity.ok(categoryList);
     }
 
+    //-------------> Update Categories By Id<----------------------------------
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,@PathVariable(name = "id") Long id){
         CategoryDto updatedCategory = categoryService.updateCategory(categoryDto,id);
         return ResponseEntity.ok(updatedCategory);
     }
 
+    //-------------> Delete Category By Id<----------------------------------
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_CODEOWNER')")
     public ResponseEntity<String> deleteCategory(@PathVariable(name = "id") Long id){
