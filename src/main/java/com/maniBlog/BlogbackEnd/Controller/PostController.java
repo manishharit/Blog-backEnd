@@ -30,7 +30,7 @@ public class PostController {
     //------------> Create New Post <----------------
     @Operation(
             summary = "CREATE POST REST API ----",
-            description = "CREATE POST REST API responsible for creating new posst and saving it to database"
+            description = "CREATE POST REST API responsible for creating new post and saving it to database"
     )
     @ApiResponse(
             responseCode = "201",

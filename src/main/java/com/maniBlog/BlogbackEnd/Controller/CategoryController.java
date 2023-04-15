@@ -39,6 +39,7 @@ public class CategoryController {
     }
 
     //-------------> Update Categories By Id<----------------------------------
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,@PathVariable(name = "id") Long id){
         CategoryDto updatedCategory = categoryService.updateCategory(categoryDto,id);
@@ -47,7 +48,7 @@ public class CategoryController {
 
     //-------------> Delete Category By Id<----------------------------------
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_CODEOWNER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteCategory(@PathVariable(name = "id") Long id){
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Category has been deleted successfully");
